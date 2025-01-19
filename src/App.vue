@@ -1,17 +1,19 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
+<script>
+import HomeView from './views/HomeView.vue'
+
+export default {
+  name: 'app',
+  components: {
+    HomeView,
+  },
+}
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <h1>Test</h1>
-  </header>
-
-  <RouterView />
+  <div>
+    <HomeView />
+  </div>
 </template>
-
 <style scoped>
 header {
   line-height: 1.5;
