@@ -1,37 +1,75 @@
 <template>
   <div id="app">
-    <header class="header">
-      <h1 class="title">KamalaVegan Restaurant</h1>
-      <nav>
-        <ul>
-          <li><router-link to="/menu">Speisekarte</router-link></li>
-          <li><a href="#reserve">Reservierung</a></li>
-          <li><a href="#about">Über Uns</a></li>
-          <li><a href="#contact">Kontakt</a></li>
-        </ul>
-      </nav>
-    </header>
+    <v-card>
+      <v-toolbar color="green">
+        <v-app-bar-nav-icon></v-app-bar-nav-icon>
+        <v-toolbar-title>
+          <!--          <v-img
+            src="/src/assets/fotos/logo.png"
+            alt="Restaurant Logo"
+            class="toolbar-logo"
+            contain
+            max-height="100"
+          ></v-img> -->
+        </v-toolbar-title>
+        <div style="text-align: center">
+          <h1>KamalaVegan Restaurant</h1>
+        </div>
 
-    <section id="reserve" class="section">
-      <h2>Reserve a Table</h2>
-      <form @submit.prevent="submitReservation">
-        <label for="date">Select a Date:</label>
-        <input type="date" id="date" v-model="reservation.date" required />
+        <!--         <v-toolbar-title>
+          <h2>KamalaVegan Restaurant</h2>
+        </v-toolbar-title> -->
 
-        <label for="time">Select a Time:</label>
-        <input type="time" id="time" v-model="reservation.time" required />
+        <v-spacer></v-spacer>
 
-        <label for="guests">Number of Guests:</label>
-        <input type="number" id="guests" v-model="reservation.guests" min="1" required />
+        <v-btn icon="mdi-magnify"></v-btn>
 
-        <label for="notes">Additional Notes:</label>
-        <textarea id="notes" v-model="reservation.notes">
-Please add allergies or requests here.</textarea
-        >
+        <v-btn icon="mdi-dots-vertical"></v-btn>
+        <div style="text-align: center">
+          <v-tabs v-model="tab" align-tabs="title" center-active="">
+            <v-tab v-for="item in items" :key="item" :text="item" :value="item"></v-tab>
+          </v-tabs>
+        </div>
+      </v-toolbar>
+      <!-- 
+      <v-tabs-window v-model="tab">
+        <v-tabs-window-item v-for="item in items" :key="item" :value="item">
+          <v-card flat>
+            <v-card-text v-text="text"></v-card-text>
+          </v-card>
+        </v-tabs-window-item>
+      </v-tabs-window> -->
+    </v-card>
+    <div class="toolbar-background">
+      <v-img
+        src="/src/assets/fotos/logo.png"
+        alt="Restaurant Logo"
+        class="toolbar-background-image"
+      ></v-img>
+    </div>
 
-        <button type="submit">Reserve</button>
-      </form>
-    </section>
+    <div class="overlay">
+      <section id="reserve" class="section">
+        <h2>Reserve a Table</h2>
+        <form @submit.prevent="submitReservation">
+          <label for="date">Select a Date:</label>
+          <input type="date" id="date" v-model="reservation.date" required />
+
+          <label for="time">Select a Time:</label>
+          <input type="time" id="time" v-model="reservation.time" required />
+
+          <label for="guests">Number of Guests:</label>
+          <input type="number" id="guests" v-model="reservation.guests" min="1" required />
+
+          <label for="notes">Additional Notes:</label>
+          <textarea id="notes" v-model="reservation.notes">
+    Please add allergies or requests here.</textarea
+          >
+
+          <button type="submit">Reserve</button>
+        </form>
+      </section>
+    </div>
 
     <section id="about" class="section">
       <h2>About Us</h2>
@@ -80,6 +118,9 @@ export default {
         email: '',
         message: '',
       },
+      tab: null,
+      items: ['Speisekarte', 'Tea Event', 'Reservierung', 'Über Uns', 'Kontake'],
+      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
     }
   },
   methods: {
