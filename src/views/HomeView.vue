@@ -1,52 +1,29 @@
 <template>
   <div id="app">
     <v-card>
-      <v-toolbar color="green">
-        <v-app-bar-nav-icon></v-app-bar-nav-icon>
-        <v-toolbar-title>
-          <!--          <v-img
-            src="/src/assets/fotos/logo.png"
-            alt="Restaurant Logo"
-            class="toolbar-logo"
+      <v-toolbar color="green" flat>
+        <!-- <v-app-bar-nav-icon>
+          <v-img
+            src="@/assets/fotos/logo.png"
+            alt="KamalaVegan Logo"
+            max-height="50"
             contain
-            max-height="100"
-          ></v-img> -->
-        </v-toolbar-title>
-        <div style="text-align: center">
-          <h1>KamalaVegan Restaurant</h1>
-        </div>
-
-        <!--         <v-toolbar-title>
-          <h2>KamalaVegan Restaurant</h2>
-        </v-toolbar-title> -->
-
+          ></v-img>
+        </v-app-bar-nav-icon> -->
+        <v-toolbar-title class="d-none d-sm-block" style="font-size: 24px; margin-left: 50px"
+          >KamalaVegan</v-toolbar-title
+        >
+        <v-toolbar-title class="d-block d-sm-none" style="font-size: 20px margin-left"
+          >KamalaVegan</v-toolbar-title
+        >
         <v-spacer></v-spacer>
-
         <v-btn icon="mdi-magnify"></v-btn>
-
         <v-btn icon="mdi-dots-vertical"></v-btn>
-        <div style="text-align: center">
-          <v-tabs v-model="tab" align-tabs="title" center-active="">
-            <v-tab v-for="item in items" :key="item" :text="item" :value="item"></v-tab>
-          </v-tabs>
-        </div>
       </v-toolbar>
-      <!-- 
-      <v-tabs-window v-model="tab">
-        <v-tabs-window-item v-for="item in items" :key="item" :value="item">
-          <v-card flat>
-            <v-card-text v-text="text"></v-card-text>
-          </v-card>
-        </v-tabs-window-item>
-      </v-tabs-window> -->
+      <v-tabs v-model="tab" align-tabs="title" centered>
+        <v-tab v-for="item in items" :key="item">{{ item }}</v-tab>
+      </v-tabs>
     </v-card>
-    <div class="toolbar-background">
-      <v-img
-        src="/src/assets/fotos/logo.png"
-        alt="Restaurant Logo"
-        class="toolbar-background-image"
-      ></v-img>
-    </div>
 
     <div class="overlay">
       <section id="reserve" class="section">
