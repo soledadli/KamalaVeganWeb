@@ -21,7 +21,9 @@
         <v-btn icon="mdi-dots-vertical"></v-btn>
       </v-toolbar>
       <v-tabs v-model="tab" align-tabs="title" centered>
-        <v-tab v-for="item in items" :key="item">{{ item }}</v-tab>
+        <v-tab v-for="item in items" :key="item">
+          <a :href="'#' + item.toLowerCase().replace(/ /g, '-')">{{ item }}</a>
+        </v-tab>
       </v-tabs>
     </v-card>
 

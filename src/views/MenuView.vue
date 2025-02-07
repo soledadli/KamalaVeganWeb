@@ -1,48 +1,61 @@
 <template>
-  <div class="MenuView">
-    <h1>Online MenuView</h1>
-    <div class="photos">
-      <div v-for="photo in photos" :key="photo" class="photo">
-        <img :src="require(`@/assets/fotos/${photo}`)" :alt="photo" />
-      </div>
-    </div>
-  </div>
+  <v-container>
+    <h2 class="text-center text-h4 font-weight-bold my-4">Photo Gallery</h2>
+
+    <v-row dense>
+      <v-col v-for="(image, index) in images" :key="index" cols="12" sm="6" md="4" lg="3">
+        <v-card class="image-card" @click="openImage(image)">
+          <v-img :src="getImageUrl(image)" aspect-ratio="1" class="rounded-lg"></v-img>
+        </v-card>
+      </v-col>
+    </v-row>
+
+    <!-- Lightbox Modal -->
+    <v-dialog v-model="dialog" max-width="800px">
+      <v-card>
+        <v-img :src="getImageUrl(selectedImage)" class="rounded-lg"></v-img>
+      </v-card>
+    </v-dialog>
+  </v-container>
 </template>
 
 <script>
+import { ref, onMounted } from 'vue'
+
 export default {
-  name: 'MenuView',
   data() {
     return {
-      photos: [
-        'photo1.jpg',
-        'photo2.jpg',
-        'photo3.jpg',
-        // Add more photo filenames here
-      ],
+      dialog: false,
+      selectedImage: null,
+      images: [],
     }
+  },
+  methods: {
+    openImage(image) {
+      this.selectedImage = image
+      this.dialog = true
+    },
+    getImageUrl(image) {
+      return new URL(`../assets/fotos/${image}`, import.meta.url).href
+    },
+    async fetchImages() {
+      const images = import.meta.glob('../assets/fotos/*.{png,jpg,jpeg,svg}')
+      this.images = Object.keys(images).map((key) => key.replace('../assets/fotos/', ''))
+    },
+  },
+  mounted() {
+    this.fetchImages()
   },
 }
 </script>
 
 <style scoped>
-.MenuView {
-  text-align: center;
+.image-card {
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
 }
 
-.photos {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.photo {
-  margin: 10px;
-}
-
-.photo img {
-  max-width: 200px;
-  max-height: 200px;
-  object-fit: cover;
+.image-card:hover {
+  transform: scale(1.05);
 }
 </style>

@@ -1,79 +1,59 @@
+<template>
+  <v-app>
+    <v-container>
+      <v-app-bar app style="background-color: #4caf50; color: #fff density= 'comfortable'">
+        <v-container class="d-flex align-center">
+          <v-toolbar-title class="text-h5 font-weight-bold">KamalaVegan</v-toolbar-title>
+          <v-tabs v-model="currentTab" background-color="transparent">
+            <v-tab value="about-us">About Us</v-tab>
+            <v-tab value="menu">Menu</v-tab>
+            <v-tab value="reservierung">Reservierung</v-tab>
+            <v-tab value="kontakt">Kontakt</v-tab>
+          </v-tabs>
+        </v-container>
+      </v-app-bar>
+
+      <v-main>
+        <v-container v-if="currentTab === 'about-us'">
+          <AboutUsView />
+        </v-container>
+
+        <v-container v-if="currentTab === 'menu'">
+          <MenuView />
+        </v-container>
+
+        <v-container v-if="currentTab === 'reservierung'">
+          <ReserveView />
+        </v-container>
+
+        <v-container v-if="currentTab === 'kontakt'">
+          <KontaktView />
+        </v-container>
+      </v-main>
+    </v-container>
+    <footer class="footer" style="background-color: #4caf50; color: #fff">
+      <p>&copy; 2025 KamalaVegan - All Rights Reserved</p>
+    </footer>
+  </v-app>
+</template>
+
 <script>
-import HomeView from './views/HomeView.vue'
+import MenuView from './views/MenuView.vue'
+import AboutUsView from './views/AboutUsView.vue'
+import ReserveView from './views/ReserveView.vue'
+import KontaktView from './views/KontaktView.vue'
 
 export default {
-  name: 'app',
   components: {
-    HomeView,
+    MenuView,
+    AboutUsView,
+    ReserveView,
+    KontaktView,
+  },
+  data() {
+    return {
+      currentTab: 'about-us',
+    }
   },
 }
 </script>
-
-<template>
-  <div>
-    <HomeView />
-  </div>
-</template>
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
-</style>
