@@ -28,7 +28,11 @@
       Note zu verleihen.
     </p>
     <div class="background-image">
-      <img src="../assets/logo/logo.png" alt="Restaurant Logo" style="width: 100%; height: auto" />
+      <img
+        src="../assets/logo/logo.png"
+        alt="Restaurant Logo"
+        style="width: 50%; height: auto; display: block; margin-left: auto; margin-right: auto"
+      />
     </div>
   </div>
 </template>

@@ -27,6 +27,7 @@ const router = createRouter({
       name: 'kontakt',
       component: KontaktView,
     },
+    { path: '/:pathMatch(.*)*', redirect: '/' }, // Catch-all (but still allows static files)
   ],
 })
 
