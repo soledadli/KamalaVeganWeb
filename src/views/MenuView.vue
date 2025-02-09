@@ -10,10 +10,11 @@
     >
       Speisekarte
     </h1>
-    <div style="text-align: center; margin-bottom: 20px">
+    <div class="button-container">
       <button @click="currentTab = 'Menu'" :style="buttonStyle">Menu</button>
       <button @click="currentTab = 'Getranke'" :style="buttonStyle">Getranke</button>
       <button @click="currentTab = 'Feuertopf'" :style="buttonStyle">Feuertopf</button>
+      <button @click="currentTab = 'Foto'" :style="buttonStyle">Fotos</button>
     </div>
     <a
       :href="pdfLink"
@@ -27,9 +28,26 @@
         text-decoration: none;
       "
     >
-      Download PDF
+      Download {{ currentTab }}
     </a>
-    <iframe :src="iframeSrc" width="100%" height="1100px"></iframe>
+    <iframe v-if="currentTab !== 'Foto'" :src="iframeSrc" width="100%" height="800px"></iframe>
+    <v-container v-if="currentTab === 'Foto'">
+      <v-row dense>
+        <v-col v-for="(image, index) in images" :key="index" cols="12" sm="6" md="4" lg="3" xl="2">
+          <v-card class="image-card" @click="openImage(image)">
+            <v-img :src="getImageUrl(image)" aspect-ratio="1" class="rounded-lg"></v-img>
+            <v-card-title>{{ image.replace(/_/g, '').replace(/\.jpg$/, '') }}</v-card-title>
+          </v-card>
+        </v-col>
+      </v-row>
+
+      <!-- Lightbox Modal -->
+      <v-dialog v-model="dialog" max-width="800px">
+        <v-card>
+          <v-img :src="getImageUrl(selectedImage)" class="rounded-lg"></v-img>
+        </v-card>
+      </v-dialog>
+    </v-container>
   </div>
 </template>
 
@@ -47,6 +65,9 @@ export default {
         cursor: 'pointer',
         fontFamily: 'Arial, sans-serif',
       },
+      dialog: false,
+      selectedImage: null,
+      images: [],
     }
   },
   computed: {
@@ -106,6 +127,44 @@ export default {
           return '/KamalaVeganWeb/pdfjs-4.10.38-dist/web/viewer.html?file=/KamalaVeganWeb/pdfs/SpeiserKarte_01.pdf'
       }
     },
+    openImage(image) {
+      this.selectedImage = image
+      this.dialog = true
+    },
+    getImageUrl(image) {
+      return new URL(`../assets/fotos/${image}`, import.meta.url).href
+    },
+    async fetchImages() {
+      const images = import.meta.glob('../assets/fotos/*.{png,jpg,jpeg,svg}')
+      this.images = Object.keys(images).map((key) => key.replace('../assets/fotos/', ''))
+    },
+  },
+  mounted() {
+    this.fetchImages()
   },
 }
 </script>
+<style scoped>
+.image-card {
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.image-card:hover {
+  transform: scale(1.05);
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+  .button-container button {
+    flex: 1 1 45%;
+    margin: 5px;
+  }
+}
+</style>

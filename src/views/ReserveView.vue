@@ -7,8 +7,20 @@
           <label for="date">Select a Date:</label>
           <input type="date" id="date" v-model="reservation.date" required />
 
-          <label for="time">Select a Time:</label>
-          <input type="time" id="time" v-model="reservation.time" required />
+          <label for="time">Select Time:</label>
+          <input list="timeOptions" id="time" v-model="reservation.time" required />
+          <datalist id="timeOptions">
+            <option v-for="time in timeOptions" :key="time" :value="time">{{ time }}</option>
+          </datalist>
+
+          <label for="name">Name:</label>
+          <input type="text" id="name" v-model="reservation.name" required />
+
+          <label for="phone">Phone Number:</label>
+          <input type="tel" id="phone" v-model="reservation.phone" required />
+
+          <label for="email">Email Address:</label>
+          <input type="email" id="email" v-model="reservation.email" required />
 
           <label for="guests">Number of Guests:</label>
           <input type="number" id="guests" v-model="reservation.guests" min="1" required />
@@ -26,6 +38,7 @@
 </template>
 
 <script>
+import { ref, computed } from 'vue'
 export default {
   data() {
     return {
@@ -34,6 +47,25 @@ export default {
         time: '',
         guests: 1,
       },
+      selectedTime: ref(null),
+      timeOptions: computed(() => {
+        let times = []
+        let hour = 12
+        let minute = 30
+
+        while (hour < 22 || (hour === 21 && minute < 30)) {
+          let formattedTime = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`
+          times.push(formattedTime)
+
+          minute += 30
+          if (minute === 60) {
+            minute = 0
+            hour++
+          }
+        }
+
+        return times
+      }),
     }
   },
   methods: {
